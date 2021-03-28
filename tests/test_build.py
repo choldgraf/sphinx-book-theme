@@ -175,29 +175,6 @@ def test_navbar_options(sphinx_build_factory, option, value):
     assert value in str(sphinx_build.html_tree("section1", "ntbk.html"))
 
 
-def test_header_info(sphinx_build_factory):
-    confoverrides = {
-        "html_baseurl": "https://blah.com/foo/",
-        "html_logo": os.path.abspath(
-            path_tests.parent.joinpath("docs", "_static", "logo.png")
-        ),
-    }
-    sphinx_build = sphinx_build_factory("base", confoverrides=confoverrides).build(
-        assert_pass=True
-    )
-
-    # opengraph is generated when baseurl is given
-    header = sphinx_build.html_tree("section1", "ntbk.html").find("head")
-    assert (
-        '<meta content="https://blah.com/foo/section1/ntbk.html" property="og:url"/>'
-        in str(header)
-    )
-    assert (
-        '<meta content="https://blah.com/foo/_static/logo.png" property="og:image"/>'
-        in str(header)
-    )
-
-
 def test_topbar_edit_buttons_on(sphinx_build_factory, file_regression):
     confoverrides = {
         "html_theme_options.use_edit_page_button": True,
